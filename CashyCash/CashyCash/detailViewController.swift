@@ -9,9 +9,13 @@ import Foundation
 import UIKit
 
 class detailViewController: UIViewController{
+
     
     var accountName: String? = nil
     var totalAmount: Double? = nil
+    var wallet: Wallet? = nil
+    var accountIndex: Int? = nil
+
     @IBOutlet weak var accountNameLabelOutlet: UILabel!
     @IBOutlet weak var totalAmountLabelOutlet: UILabel!
     
@@ -23,29 +27,63 @@ class detailViewController: UIViewController{
     
     override func viewDidLoad() {
         // do init here
-        guard let totalAmount = totalAmount else{
-            return
-        }
-        guard let accountName = accountName else {
-            return
-        }
-        accountNameLabelOutlet.text = accountName
-        totalAmountLabelOutlet.text = "$\(totalAmount)"
+        guard let wallet = wallet else { return }
+        guard let accountIndex = accountIndex else { return }
+        let account = wallet.accounts[accountIndex]
+        accountNameLabelOutlet.text = account.name
+        totalAmountLabelOutlet.text = "$\(account.amount)"
     }
 
     
     
     @IBAction func depositButtonPressed(_ sender: Any) {
-        print("deposit")
-        loadPopupToController(title: "Deposit", buttonPressHandler: #selector(self.depositButtonPressed))
+        let alert = UIAlertController(title: "Deposit", message: "Please enter the amount you would like to deposit.", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.keyboardType = UIKeyboardType.numberPad
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [self] _ in
+            guard let wallet = wallet else { return }
+            guard let accountIndex = accountIndex else { return }
+            guard let textFields = alert.textFields else { return }
+            let input = textFields[0].text ?? ""
+            if let amount = Double(input) {
+                Api.deposit(wallet: wallet, toAccountAt: accountIndex, amount: amount, completion: { response, error in
+                    totalAmountLabelOutlet.text = "$\(wallet.accounts[accountIndex].amount)"
+                })
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func withdrawButtonPressed(_ sender: Any) {
+        let alert = UIAlertController(title: "Withdraw", message: "Please enter the amount you would like to withdraw.", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.keyboardType = UIKeyboardType.numberPad
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [self] _ in
+            guard let wallet = wallet else { return }
+            guard let accountIndex = accountIndex else { return }
+            guard let textFields = alert.textFields else { return }
+            let input = textFields[0].text ?? ""
+            if let amount = Double(input) {
+                Api.withdraw(wallet: wallet, fromAccountAt: accountIndex, amount: min(amount, wallet.accounts[accountIndex].amount), completion: { response, error in
+                    totalAmountLabelOutlet.text = "$\(wallet.accounts[accountIndex].amount)"
+                })
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func transferButtonPressed(_ sender: Any) {
     }
+    
     @IBAction func deleteButtonPressed(_ sender: Any) {
+        guard let wallet = wallet else { return }
+        guard let accountIndex = accountIndex else { return }
+        Api.removeAccount(wallet: wallet, removeAccountat: accountIndex, completion: { response, error in return })
+        navigationController?.popViewController(animated: true)
     }
     
     func loadPopupToController(title: String, buttonPressHandler: Selector) {
