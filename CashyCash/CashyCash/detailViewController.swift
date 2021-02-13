@@ -24,6 +24,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     // popup variable outlets
     var popup: UIView = UIView()
     var accountNameTextField: UITextField = UITextField()
+    var transferAmountTextField: UITextField = UITextField()
     var errorMsgLabel: UILabel = UILabel()
     typealias popupButtonPressedHandler = (_ sender:UIButton) -> Void
     
@@ -116,10 +117,10 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         popup.addSubview(okayButton)
         
 
-        // create textfield and add to popup view
+        // create account name textfield and add to popup view
         let accountNameTextFieldFrame = CGRect(x: 5, y: 5, width: popup.frame.size.width - 60, height: 40)
         accountNameTextField = UITextField(frame: accountNameTextFieldFrame)
-        accountNameTextField.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.4)
+        accountNameTextField.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.3)
         accountNameTextField.borderStyle = UITextField.BorderStyle.roundedRect
         accountNameTextField.delegate = self
         
@@ -128,17 +129,26 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         accountNameTextField.inputView = thePicker
         popup.addSubview(accountNameTextField)
         
+        
+        // create transfer amount textfield and add to popup view
+        let transferAmountTextFieldFrame = CGRect(x: 5, y: 5, width: popup.frame.size.width - 60, height: 40)
+        transferAmountTextField = UITextField(frame: transferAmountTextFieldFrame)
+        transferAmountTextField.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.5)
+        transferAmountTextField.borderStyle = UITextField.BorderStyle.roundedRect
+        transferAmountTextField.delegate = self
+        popup.addSubview(transferAmountTextField)
+        
         // create error message label and add to popup view
         let errorMsgLabelFrame = CGRect(x: 5, y: 5, width: popup.frame.size.width - 60, height: 40)
         errorMsgLabel = UILabel(frame: errorMsgLabelFrame)
         errorMsgLabel.textColor = UIColor(red: 255/255, green: 122/255, blue: 98/255, alpha: 1)
-        errorMsgLabel.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 3 / 5)
+        errorMsgLabel.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.65)
         popup.addSubview(errorMsgLabel)
         
         // create popup title label and add to popup view
         let titleLabelFrame = CGRect(x: 5, y: 5, width: popup.frame.size.width - 60, height: 40)
         let titleLabel = UILabel(frame: titleLabelFrame)
-        titleLabel.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.2)
+        titleLabel.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.15)
         titleLabel.text = title
         titleLabel.textColor = UIColor.darkGray
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
