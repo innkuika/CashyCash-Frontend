@@ -390,7 +390,6 @@
                                 </state>
                                 <connections>
                                     <action selector="depositButtonPressed:" destination="ZmG-Eu-C5h" eventType="touchUpInside" id="ytN-Ls-hID"/>
-                                    <action selector="depositeButtonPressed:" destination="ZmG-Eu-C5h" eventType="touchUpInside" id="oz5-TM-wKO"/>
                                 </connections>
                             </button>
                         </subviews>

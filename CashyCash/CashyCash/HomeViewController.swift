@@ -158,9 +158,6 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
             self.popup.isHidden = true
             self.accountDetailOutlet.reloadData()
         }
-        
-        
-        
         }
     
     // MARK: -UITableViewDataSource implementation
@@ -206,7 +203,6 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
     @IBAction func createAccountButtonPressed(_ sender: Any) {
         loadPopupToController()
     }
- 
     @IBAction func nameTextfieldEndAction(_ sender: Any) {
         Api.setName(name: nameTextfieldOutlet.text ?? ""){ response, error in
             print("New name set")
