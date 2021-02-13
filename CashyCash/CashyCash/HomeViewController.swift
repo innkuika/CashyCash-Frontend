@@ -95,30 +95,40 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         
         
         // create button and add to popup view
-        let okayButtonFrame = CGRect(x: 40, y: 100, width: 50, height: 50)
+        let okayButtonFrame = CGRect(x: 40, y: 100, width: 80, height: 50)
         let okayButton = UIButton(frame: okayButtonFrame )
         okayButton.setTitle("ok", for: .normal)
-        okayButton.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 1.0)
+        okayButton.backgroundColor = UIColor(red: 166/255, green: 221/255, blue: 1, alpha: 1.0)
         okayButton.addTarget(self, action: #selector(self.didPressButtonFromCustomView), for:.touchUpInside)
-        okayButton.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 3 / 4)
+        okayButton.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 4 / 5)
+        okayButton.layer.cornerRadius = 20
         popup.addSubview(okayButton)
         
         // create textfield and add to popup view
         let accountNameTextFieldFrame = CGRect(x: 5, y: 5, width: popup.frame.size.width - 60, height: 40)
         accountNameTextField = UITextField(frame: accountNameTextFieldFrame)
-        accountNameTextField.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height / 3)
+        accountNameTextField.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.4)
         accountNameTextField.borderStyle = UITextField.BorderStyle.roundedRect
         popup.addSubview(accountNameTextField)
         
         // create error message label and add to popup view
         let errorMsgLabelFrame = CGRect(x: 5, y: 5, width: popup.frame.size.width - 60, height: 40)
+        errorMsgLabel = UILabel(frame: errorMsgLabelFrame)
+        errorMsgLabel.textColor = UIColor(red: 255/255, green: 122/255, blue: 98/255, alpha: 1)
+        errorMsgLabel.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 3 / 5)
+        popup.addSubview(errorMsgLabel)
         
+        // create popup title label and add to popup view
+        let titleLabelFrame = CGRect(x: 5, y: 5, width: popup.frame.size.width - 60, height: 40)
+        let titleLabel = UILabel(frame: titleLabelFrame)
+        titleLabel.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.2)
+        titleLabel.text = "Please enter account name"
+        titleLabel.textColor = UIColor.darkGray
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        popup.addSubview(titleLabel)
         
         // add popup into view as a subview
         self.view.addSubview(popup)
-        
-        
-        
     }
     
     @objc func didPressButtonFromCustomView(sender:UIButton) {
@@ -132,18 +142,25 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
             return
         }
         
-        // check if account name is duplicate
+        // if account name is an empty string, display error message
+        if accountName == "" {
+            errorMsgLabel.text = "Please enter an account name"
+            return
+        }
+        
+        // if the account name has been taken, display an error message
         let accountNamesArr = wallet.accounts.map{ $0.name }
         if accountNamesArr.contains(accountName) {
-            
+            errorMsgLabel.text = "Duplicate account name"
             return
         }
         // add account
         Api.addNewAccount(wallet: wallet, newAccountName: accountName) {
             response, error in
-            // print(response)
+            
             
             self.popup.isHidden = true
+            self.accountDetailOutlet.reloadData()
         }
         
         
