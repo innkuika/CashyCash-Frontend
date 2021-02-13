@@ -105,6 +105,7 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         accountNameTextField = UITextField(frame: accountNameTextFieldFrame)
         accountNameTextField.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.4)
         accountNameTextField.borderStyle = UITextField.BorderStyle.roundedRect
+        accountNameTextField.text = "Account \(wallet?.accounts.count ?? 0)"
         popup.addSubview(accountNameTextField)
         
         // create error message label and add to popup view
@@ -206,7 +207,6 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         loadPopupToController()
     }
  
-    
     @IBAction func nameTextfieldEndAction(_ sender: Any) {
         Api.setName(name: nameTextfieldOutlet.text ?? ""){ response, error in
             print("New name set")
