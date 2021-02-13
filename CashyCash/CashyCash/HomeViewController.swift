@@ -73,6 +73,7 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         if let selectedIndexPath = accountDetailOutlet.indexPathForSelectedRow{
             accountDetailOutlet.deselectRow(at: selectedIndexPath, animated: animated)
         }
+        accountDetailOutlet.reloadData()
     }
     
     func loadPopupToController() {
@@ -187,10 +188,8 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
             assertionFailure("detailViewController not found")
             return
         }
-        // get selected account
-        let selectedAccount = wallet?.accounts[indexPath.row]
-        detailViewController.accountName = selectedAccount?.name
-        detailViewController.totalAmount = selectedAccount?.amount
+        detailViewController.wallet = wallet
+        detailViewController.accountIndex = indexPath.row
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     
