@@ -13,7 +13,7 @@ struct User: Decodable {
     
 }
 
-class HomeViewController : UIViewController, UITableViewDataSource, UITableViewDelegate{
+class HomeViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate{
    
     @IBOutlet weak var nameTextfieldOutlet: UITextField!
     @IBOutlet weak var accountDetailOutlet: UITableView!
@@ -25,10 +25,7 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
     
     
     override func viewDidLoad() {
-        // add tap to dismiss keyboard
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-        
+
         // disable back button
         navigationItem.hidesBackButton = true
         
@@ -36,9 +33,9 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         accountDetailOutlet.dataSource = self
         accountDetailOutlet.delegate = self
         
-        // hide popup
-        // popup.isHidden = true
         
+        self.nameTextfieldOutlet.delegate = self
+
         // get user info
         Api.user() { response, error in
             guard let user = response?["user"] as? [String: Any] else{
@@ -79,7 +76,6 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func loadPopupToController() {
-        print("load popup to controller")
         let customViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width - 80, height: self.view.frame.height - 600)
         popup = UIView(frame: customViewFrame)
         popup.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
@@ -184,20 +180,18 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         cell.imageView?.image = UIImage(systemName: "dollarsign.circle.fill")
         return cell
     }
-    
-    // MARK: -UITableViewDataSource implementation
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("cell clicked")
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailViewController = storyboard.instantiateViewController(identifier: "detailViewController") as? detailViewController else {
+            assertionFailure("detailViewController not found")
+            return
+        }
         // get selected account
         let selectedAccount = wallet?.accounts[indexPath.row]
-        
-        if let detailViewController = storyboard?.instantiateViewController(identifier: "detailViewController") as? detailViewController {
-            detailViewController.accountName = selectedAccount?.name
-            detailViewController.totalAmount = selectedAccount?.amount
-            
-            navigationController?.pushViewController(detailViewController, animated: true)
-        }
+        detailViewController.accountName = selectedAccount?.name
+        detailViewController.totalAmount = selectedAccount?.amount
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
@@ -220,9 +214,14 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         }
         if nameTextfieldOutlet.text?.isEmpty ?? true {
             nameTextfieldOutlet.text = Storage.phoneNumberInE164
-        }
-        
+        }   
     }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
