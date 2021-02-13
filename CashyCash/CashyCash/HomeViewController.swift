@@ -128,7 +128,6 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func didPressButtonFromCustomView(sender:UIButton) {
-        print("okay button pressed")
         guard let wallet = wallet else {
             return
         }
@@ -154,7 +153,7 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         Api.addNewAccount(wallet: wallet, newAccountName: accountName) {
             response, error in
             
-            
+            self.view.endEditing(true)
             self.popup.isHidden = true
             self.accountDetailOutlet.reloadData()
         }
@@ -214,15 +213,11 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         }
         if nameTextfieldOutlet.text?.isEmpty ?? true {
             nameTextfieldOutlet.text = Storage.phoneNumberInE164
-        }   
+        }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
     }
 }
