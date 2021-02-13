@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 
-class detailViewController: UIViewController{
+class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+    
 
     
     var accountName: String? = nil
@@ -38,10 +39,6 @@ class detailViewController: UIViewController{
     
     
     @IBAction func depositButtonPressed(_ sender: Any) {
-
-        print("deposit")
-        loadPopupToController(title: "Deposit", buttonPressHandler: #selector(self.depositButtonPressed))
-
         let alert = UIAlertController(title: "Deposit", message: "Please enter the amount you would like to deposit.", preferredStyle: .alert)
         alert.addTextField { textField in
             textField.keyboardType = UIKeyboardType.numberPad
@@ -83,6 +80,7 @@ class detailViewController: UIViewController{
     }
     
     @IBAction func transferButtonPressed(_ sender: Any) {
+        loadPopupToController(title: "Transfer", buttonPressHandler: #selector(self.popupButtonPressed))
     }
     
     @IBAction func deleteButtonPressed(_ sender: Any) {
@@ -117,11 +115,17 @@ class detailViewController: UIViewController{
         okayButton.layer.cornerRadius = 20
         popup.addSubview(okayButton)
         
+
         // create textfield and add to popup view
         let accountNameTextFieldFrame = CGRect(x: 5, y: 5, width: popup.frame.size.width - 60, height: 40)
         accountNameTextField = UITextField(frame: accountNameTextFieldFrame)
         accountNameTextField.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.4)
         accountNameTextField.borderStyle = UITextField.BorderStyle.roundedRect
+        accountNameTextField.delegate = self
+        
+        let thePicker = UIPickerView()
+        thePicker.delegate = self
+        accountNameTextField.inputView = thePicker
         popup.addSubview(accountNameTextField)
         
         // create error message label and add to popup view
@@ -144,10 +148,33 @@ class detailViewController: UIViewController{
         self.view.addSubview(popup)
     }
     
-    @objc func depositButtonPressed(sender:UIButton) {
+    @objc func popupButtonPressed(sender:UIButton) {
         print("button pressed")
         }
     
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return wallet?.accounts.count ?? 0
+    }
+    
+    func pickerView( _ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let accountNamesArr = wallet?.accounts.map{ $0.name }
+        return accountNamesArr?[row]
+    }
+
+    func pickerView( _ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(wallet?.accounts.map{ $0.name })
+        let accountNamesArr = wallet?.accounts.map{ $0.name }
+        accountNameTextField.text = accountNamesArr?[row]
+    }
+    
+     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        return false
+    }
    
     
 }
