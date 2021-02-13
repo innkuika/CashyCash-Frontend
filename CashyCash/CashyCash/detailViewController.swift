@@ -9,11 +9,6 @@ import Foundation
 import UIKit
 
 class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    
-
-    
-    var accountName: String? = nil
-    var totalAmount: Double? = nil
 
     var wallet: Wallet? = nil
     var accountIndex: Int? = nil
@@ -135,6 +130,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         transferAmountTextField = UITextField(frame: transferAmountTextFieldFrame)
         transferAmountTextField.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.5)
         transferAmountTextField.borderStyle = UITextField.BorderStyle.roundedRect
+        transferAmountTextField.keyboardType = UIKeyboardType.numberPad
         transferAmountTextField.delegate = self
         popup.addSubview(transferAmountTextField)
         
@@ -160,8 +156,20 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     @objc func popupButtonPressed(sender:UIButton) {
         print("button pressed")
+        guard let wallet = wallet else { return }
+        guard let accountIndex = accountIndex else { return }
+        guard let accountPicker = accountNameTextField.inputView as? UIPickerView else { return }
+        let input = transferAmountTextField.text ?? ""
+        if let amount = Double(input) {
+            if amount > wallet.accounts[accountIndex].amount {
+                errorMsgLabel.text = "Transfer amount too large"
+            } else {
+                Api.transfer(wallet: wallet, fromAccountAt: accountIndex, toAccountAt: accountPicker.selectedRow(inComponent: 0), amount: amount, completion: { response, error in return })
+                popup.removeFromSuperview()
+                totalAmountLabelOutlet.text = "$\(wallet.accounts[accountIndex].amount)"
+            }
         }
-    
+    }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
