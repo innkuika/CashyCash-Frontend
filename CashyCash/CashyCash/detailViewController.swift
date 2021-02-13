@@ -13,6 +13,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     var wallet: Wallet? = nil
     var accountIndex: Int? = nil
 
+    
     @IBOutlet weak var accountNameLabelOutlet: UILabel!
     @IBOutlet weak var totalAmountLabelOutlet: UILabel!
     
@@ -30,6 +31,18 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         let account = wallet.accounts[accountIndex]
         accountNameLabelOutlet.text = account.name
         totalAmountLabelOutlet.text = "$\(account.amount)"
+        
+        // disable back button
+        navigationItem.hidesBackButton = true
+    }
+    
+    @IBAction func doneButtonPressed(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let homeViewController = storyboard.instantiateViewController(identifier: "homeViewController") as? HomeViewController else {
+            assertionFailure("can't instantiate home view controller")
+            return
+        }
+        navigationController?.pushViewController(homeViewController, animated: true)
     }
 
     
