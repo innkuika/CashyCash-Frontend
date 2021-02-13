@@ -389,11 +389,9 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
                                 <connections>
-<<<<<<< HEAD
+
                                     <action selector="depositButtonPressed:" destination="ZmG-Eu-C5h" eventType="touchUpInside" id="ytN-Ls-hID"/>
-=======
-                                    <action selector="depositButtonPressed:" destination="ZmG-Eu-C5h" eventType="touchUpInside" id="oz5-TM-wKO"/>
->>>>>>> 483a49d4620a31c25bfd127157311dba5fdc63e3
+
                                 </connections>
                             </button>
                         </subviews>

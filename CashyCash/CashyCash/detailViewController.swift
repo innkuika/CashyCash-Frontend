@@ -13,6 +13,7 @@ class detailViewController: UIViewController{
     
     var accountName: String? = nil
     var totalAmount: Double? = nil
+
     var wallet: Wallet? = nil
     var accountIndex: Int? = nil
 
@@ -37,6 +38,10 @@ class detailViewController: UIViewController{
     
     
     @IBAction func depositButtonPressed(_ sender: Any) {
+
+        print("deposit")
+        loadPopupToController(title: "Deposit", buttonPressHandler: #selector(self.depositButtonPressed))
+
         let alert = UIAlertController(title: "Deposit", message: "Please enter the amount you would like to deposit.", preferredStyle: .alert)
         alert.addTextField { textField in
             textField.keyboardType = UIKeyboardType.numberPad
@@ -54,6 +59,7 @@ class detailViewController: UIViewController{
             }
         }))
         self.present(alert, animated: true, completion: nil)
+
     }
     
     @IBAction func withdrawButtonPressed(_ sender: Any) {
