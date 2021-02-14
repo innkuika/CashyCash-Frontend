@@ -1,4 +1,4 @@
-## Your Name || SID 
+## Your Name | Student ID 
 * Jessica Wu |  918374404
 * Manprit Heer | 912839204
 * Donald Lieu | 916113230
