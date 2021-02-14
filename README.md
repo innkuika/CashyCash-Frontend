@@ -11,7 +11,7 @@
 
 ## Account view
 * Used `UILabel` to display account name and amount
-* Used `UIButoon` to implement done button
+* Used `UIButton` to implement done button
   * goes back to homeView when pressed
 * Used `UIButton` and related Api functions to implement and saved updated data to server
   * Deposit
