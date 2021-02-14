@@ -62,7 +62,7 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
             self.accountDetailOutlet.reloadData()
             
             // show total amount
-            let totalAmount = String(format: "%.2f", self.wallet?.totalAmount.rounded() ?? 0)
+            let totalAmount = String(format: "%.2f", self.wallet?.totalAmount ?? 0)
             self.totalAmountOutlet.text = "Total Amount: \(totalAmount)"
         }
     }
@@ -106,7 +106,10 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         accountNameTextField = UITextField(frame: accountNameTextFieldFrame)
         accountNameTextField.center = CGPoint(x: popup.frame.size.width / 2, y: popup.frame.size.height * 0.4)
         accountNameTextField.borderStyle = UITextField.BorderStyle.roundedRect
-        accountNameTextField.text = "Account \(wallet?.accounts.count ?? 0)"
+      
+        let accString = placeAccountNumber()
+        accountNameTextField.placeholder = accString
+        
         popup.addSubview(accountNameTextField)
         
         // create error message label and add to popup view
@@ -129,20 +132,38 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         self.view.addSubview(popup)
     }
     
+    func placeAccountNumber() -> String{
+        guard let unwrappedWallet = wallet else {
+            return ""
+        }
+        
+        var suggestedName = "Account \(String(unwrappedWallet.accounts.count + 1))"
+                let accountNames = Set(unwrappedWallet.accounts.map({ account in
+                    account.name
+                }))
+                if accountNames.contains(suggestedName) {
+                    var possibleAccountNames = Set((1..<(accountNames.count + 1)).map({ num in "Account \(num)" }))
+                    possibleAccountNames.subtract(accountNames)
+                    suggestedName = possibleAccountNames[possibleAccountNames.index(possibleAccountNames.startIndex, offsetBy: 0)]
+                }
+               return suggestedName
+    }
+    
     @objc func didPressButtonFromCustomView(sender:UIButton) {
         guard let wallet = wallet else {
             return
         }
         
         // unwrap account name
-        guard let accountName = accountNameTextField.text else {
+        guard var accountName = accountNameTextField.text else {
             return
         }
-        
+        guard let unwrapped = accountNameTextField.placeholder else {
+            return
+        }
         // if account name is an empty string, display error message
         if accountName == "" {
-            errorMsgLabel.text = "Please enter an account name"
-            return
+            accountName = unwrapped
         }
         
         // if the account name has been taken, display an error message
@@ -159,6 +180,8 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
             self.popup.isHidden = true
             self.accountDetailOutlet.reloadData()
         }
+        
+
         }
     
     // MARK: -UITableViewDataSource implementation
@@ -173,8 +196,8 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
         let account = wallet?.accounts[indexPath.row]
         
         let accountName = account?.name ?? "account name not found"
-        let accountAmount = String(account?.amount ?? 0)
-        cell.textLabel?.text = "\(accountName): \(accountAmount)"
+        let accountAmount = account?.amount ?? 0
+        cell.textLabel?.text = "\(accountName): " + String(format: "%.2f", accountAmount)
         cell.imageView?.image = UIImage(systemName: "dollarsign.circle.fill")
         return cell
     }

@@ -31,8 +31,8 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         guard let accountIndex = accountIndex else { return }
         let account = wallet.accounts[accountIndex]
         accountNameLabelOutlet.text = account.name
-        totalAmountLabelOutlet.text = "$\(account.amount)"
-        
+        totalAmountLabelOutlet.text = "$" + String(format: "%.2f",account.amount)
+      
         // disable back button
         navigationItem.hidesBackButton = true
     }
