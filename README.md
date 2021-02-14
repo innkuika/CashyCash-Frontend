@@ -1,7 +1,10 @@
-## Your Name
-Jessica Wu
-## SID: Your Student ID
-918374404
+## Your Name || SID 
+Jessica Wu |  918374404
+Manprit Heer | 912839204
+Donald Lieu | 916113230
+Jessica Ma | 915345025
+Roberto Lozano | 
+
 
 ## Directly show wallet
 * Check if auth token exist in `sceneDelegate`, if so, navigate to `homeView` directly 
