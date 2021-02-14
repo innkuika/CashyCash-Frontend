@@ -7,7 +7,7 @@
 
 
 ## Directly show wallet
-* Check if auth token exist in `sceneDelegate`, if so, navigate to `homeView` directly 
+* Check if auth token exists in `sceneDelegate`, if so, navigate to `homeView` directly 
 
 ## Account view
 * Used `UILabel` to display account name and amount
