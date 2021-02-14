@@ -109,7 +109,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         greyRect.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
         self.view.addSubview(greyRect)
         
-        let customViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width - 80, height: self.view.frame.height - 600)
+        let customViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width * 0.9, height: self.view.frame.height * 0.4)
         popup = UIView(frame: customViewFrame)
         popup.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
         popup.center = CGPoint(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 3)
