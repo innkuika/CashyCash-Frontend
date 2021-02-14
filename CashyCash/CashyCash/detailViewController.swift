@@ -22,6 +22,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     var accountNameTextField: UITextField = UITextField()
     var transferAmountTextField: UITextField = UITextField()
     var errorMsgLabel: UILabel = UILabel()
+    var greyRect: UIView = UIView()
     typealias popupButtonPressedHandler = (_ sender:UIButton) -> Void
     
     override func viewDidLoad() {
@@ -104,7 +105,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func loadPopupToController(title: String, buttonPressHandler: Selector) {
         let greyRectFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        let greyRect = UIView(frame: greyRectFrame)
+        greyRect = UIView(frame: greyRectFrame)
         greyRect.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
         self.view.addSubview(greyRect)
         
@@ -187,6 +188,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             } else {
                 Api.transfer(wallet: wallet, fromAccountAt: accountIndex, toAccountAt: accountPicker.selectedRow(inComponent: 0), amount: amount, completion: { response, error in return })
                 popup.removeFromSuperview()
+                greyRect.removeFromSuperview()
                 totalAmountLabelOutlet.text = "$\(wallet.accounts[accountIndex].amount)"
             }
         }
