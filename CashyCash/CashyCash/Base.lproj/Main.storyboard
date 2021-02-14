@@ -271,7 +271,7 @@
                                     <constraint firstAttribute="height" constant="48" id="fbO-j7-jlu"/>
                                 </constraints>
                                 <color key="tintColor" red="0.62397676710000005" green="0.84660071130000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Creat New Account" backgroundImage="rectangle.fill" catalog="system">
+                                <state key="normal" title="Create New Account" backgroundImage="rectangle.fill" catalog="system">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
