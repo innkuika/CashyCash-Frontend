@@ -1,9 +1,9 @@
 ## Your Name || SID 
-Jessica Wu |  918374404
-Manprit Heer | 912839204
-Donald Lieu | 916113230
-Jessica Ma | 915345025
-Roberto Lozano | 
+* Jessica Wu |  918374404
+* Manprit Heer | 912839204
+* Donald Lieu | 916113230
+* Jessica Ma | 915345025
+* Roberto Lozano | 
 
 
 ## Directly show wallet
