@@ -17,7 +17,7 @@
   * Deposit
   * Withdraw
   * Transfer
-   * In order to ensure that the user cannot touch outside of the custom pop-up, we added another subview behind the pop-up, whose UserInteractionEnabled functionality was set to false. This gray rectangle subview will then pop off along with the pop-up view once it is dismissed. This same gray view is utilized for the "Create Account" pop-up so that the user cannot click on any other buttons in the parent view.
+   ** In order to ensure that the user cannot touch outside of the custom pop-up, we added another subview behind the pop-up, whose UserInteractionEnabled functionality was set to false. This gray rectangle subview will then pop off along with the pop-up view once it is dismissed. This same gray view is utilized for the "Create Account" pop-up so that the user cannot click on any other buttons in the parent view.
   * Delete
   
 ## Allow account modification
