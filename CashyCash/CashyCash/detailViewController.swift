@@ -61,7 +61,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             let input = textFields[0].text ?? ""
             if let amount = Double(input) {
                 Api.deposit(wallet: wallet, toAccountAt: accountIndex, amount: amount, completion: { response, error in
-                    totalAmountLabelOutlet.text = "$\(wallet.accounts[accountIndex].amount)"
+                    totalAmountLabelOutlet.text = "$" + String(format: "%.2f", wallet.accounts[accountIndex].amount)
                 })
             }
         }))
@@ -82,7 +82,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             let input = textFields[0].text ?? ""
             if let amount = Double(input) {
                 Api.withdraw(wallet: wallet, fromAccountAt: accountIndex, amount: min(amount, wallet.accounts[accountIndex].amount), completion: { response, error in
-                    totalAmountLabelOutlet.text = "$\(wallet.accounts[accountIndex].amount)"
+                    totalAmountLabelOutlet.text = "$" + String(format: "%.2f", wallet.accounts[accountIndex].amount)
                 })
             }
         }))
