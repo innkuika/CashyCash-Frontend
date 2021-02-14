@@ -90,6 +90,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     @IBAction func transferButtonPressed(_ sender: Any) {
         loadPopupToController(title: "Transfer", buttonPressHandler: #selector(self.popupButtonPressed))
+        
     }
     
     @IBAction func deleteButtonPressed(_ sender: Any) {
@@ -97,9 +98,16 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         guard let accountIndex = accountIndex else { return }
         Api.removeAccount(wallet: wallet, removeAccountat: accountIndex, completion: { response, error in return })
         navigationController?.popViewController(animated: true)
+        
+        
     }
     
     func loadPopupToController(title: String, buttonPressHandler: Selector) {
+        let greyRectFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        let greyRect = UIView(frame: greyRectFrame)
+        greyRect.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
+        self.view.addSubview(greyRect)
+        
         let customViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width - 80, height: self.view.frame.height - 600)
         popup = UIView(frame: customViewFrame)
         popup.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
