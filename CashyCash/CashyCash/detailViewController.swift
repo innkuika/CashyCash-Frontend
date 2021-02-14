@@ -189,7 +189,7 @@ class detailViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                 Api.transfer(wallet: wallet, fromAccountAt: accountIndex, toAccountAt: accountPicker.selectedRow(inComponent: 0), amount: amount, completion: { response, error in return })
                 popup.removeFromSuperview()
                 greyRect.removeFromSuperview()
-                totalAmountLabelOutlet.text = "$\(wallet.accounts[accountIndex].amount)"
+                totalAmountLabelOutlet.text = "$" + String(format: "%.2f", wallet.accounts[accountIndex].amount)
             }
         }
     }

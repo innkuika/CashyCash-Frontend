@@ -22,6 +22,7 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
     var popup: UIView = UIView()
     var accountNameTextField: UITextField = UITextField()
     var errorMsgLabel: UILabel = UILabel()
+    var greyRect: UIView = UIView()
     
     
     override func viewDidLoad() {
@@ -77,6 +78,10 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func loadPopupToController() {
+        let greyRectFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        greyRect = UIView(frame: greyRectFrame)
+        greyRect.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
+        self.view.addSubview(greyRect)
         let customViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width - 80, height: self.view.frame.height - 600)
         popup = UIView(frame: customViewFrame)
         popup.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
@@ -178,6 +183,7 @@ class HomeViewController : UIViewController, UITableViewDataSource, UITableViewD
             
             self.view.endEditing(true)
             self.popup.isHidden = true
+            self.greyRect.isHidden = true
             self.accountDetailOutlet.reloadData()
         }
         
